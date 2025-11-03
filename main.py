@@ -93,5 +93,31 @@ for i in range(50):
         except:
             z[i, j] = np.nan
 
+    # #3D Plot (Only for fixed energy demand = 3.0)
+def plot3d(x, y, z):
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection='3d')
+    ax.plot_surface(x, y, z, rstride=1, cstride=1, cmap='viridis', linewidth=0.4, antialiased=True)
+    ax.contourf(x, y, z, zdir='z', offset=-2.5, cmap='viridis', alpha=0.5)
+    ax.contourf(x, y, z, zdir='x', offset=x.max()*1.5, cmap='viridis', alpha=0.5)
+    ax.contourf(x, y, z, zdir='y', offset=y.max()*1.5, cmap='viridis', alpha=0.5)
+    ax.view_init(30, 200)
+    plt.show()
+x_solar_temp, y_solar_temp = np.meshgrid(np.linspace(0, 1000, 20), np.linspace(10, 60, 20))
+z_solar_usage = np.zeros_like(x_solar_temp)
+
+for i in range(20):
+    for j in range(20):
+        solar_sim.input['solar_intensity'] = x_solar_temp[i, j]
+        solar_sim.input['energy_demand'] = 3.0
+        solar_sim.input['temperature'] = y_solar_temp[i, j]
+        try:
+            solar_sim.compute()
+            z_solar_usage[i, j] = solar_sim.output['solar_usage']
+        except:
+            z_solar_usage[i, j] = 0
+
+plot3d(x_solar_temp, y_solar_temp, z_solar_usage)
+
 
 

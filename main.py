@@ -62,3 +62,7 @@ rules = [
     ctrl.Rule(solar_intensity['low'] & energy_demand['medium'] & temperature['low'], solar_usage['low']),
 ]
 
+# Construction & Simulation
+solar_ctrl = ctrl.ControlSystem(rules)
+solar_sim = ctrl.ControlSystemSimulation(solar_ctrl)
+

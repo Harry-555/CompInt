@@ -31,3 +31,34 @@ solar_usage['low'] = fuzz.trapmf(solar_usage.universe, [0, 0, 20, 40])
 solar_usage['medium'] = fuzz.trimf(solar_usage.universe, [30, 50, 70])
 solar_usage['high'] = fuzz.trapmf(solar_usage.universe, [60, 80, 100, 100])
 
+#Set of Rules
+rules = [
+    ctrl.Rule(solar_intensity['high'] & energy_demand['low'] & temperature['low'], solar_usage['high']),
+    ctrl.Rule(solar_intensity['high'] & energy_demand['low'] & temperature['medium'], solar_usage['high']),
+    ctrl.Rule(solar_intensity['high'] & energy_demand['medium'] & temperature['low'], solar_usage['high']),
+    ctrl.Rule(solar_intensity['high'] & energy_demand['medium'] & temperature['medium'], solar_usage['high']),
+    ctrl.Rule(solar_intensity['high'] & energy_demand['high'] & temperature['low'], solar_usage['high']),
+    ctrl.Rule(solar_intensity['high'] & energy_demand['high'] & temperature['medium'], solar_usage['high']),
+    ctrl.Rule(solar_intensity['medium'] & energy_demand['low'] & temperature['low'], solar_usage['high']),
+    ctrl.Rule(solar_intensity['high'] & energy_demand['low'] & temperature['high'], solar_usage['medium']),
+    ctrl.Rule(solar_intensity['high'] & energy_demand['medium'] & temperature['high'], solar_usage['medium']),
+    ctrl.Rule(solar_intensity['high'] & energy_demand['high'] & temperature['high'], solar_usage['medium']),
+    ctrl.Rule(solar_intensity['medium'] & energy_demand['medium'] & temperature['high'], solar_usage['low']),
+    ctrl.Rule(solar_intensity['medium'] & energy_demand['high'] & temperature['high'], solar_usage['low']),
+    ctrl.Rule(solar_intensity['medium'] & energy_demand['high'] & temperature['low'], solar_usage['medium']),
+    ctrl.Rule(solar_intensity['medium'] & energy_demand['high'] & temperature['medium'], solar_usage['low']),
+    ctrl.Rule(solar_intensity['low'] & energy_demand['low'] & temperature['high'], solar_usage['low']),
+    ctrl.Rule(solar_intensity['low'] & energy_demand['medium'] & temperature['medium'], solar_usage['low']),
+    ctrl.Rule(solar_intensity['low'] & energy_demand['medium'] & temperature['high'], solar_usage['low']),
+    ctrl.Rule(solar_intensity['low'] & energy_demand['high'] & temperature['low'], solar_usage['low']),
+    ctrl.Rule(solar_intensity['low'] & energy_demand['high'] & temperature['medium'], solar_usage['low']),
+    ctrl.Rule(solar_intensity['low'] & energy_demand['high'] & temperature['high'], solar_usage['low']),
+    ctrl.Rule(solar_intensity['medium'] & energy_demand['low'] & temperature['medium'], solar_usage['medium']),
+    ctrl.Rule(solar_intensity['medium'] & energy_demand['low'] & temperature['high'], solar_usage['medium']),
+    ctrl.Rule(solar_intensity['medium'] & energy_demand['medium'] & temperature['low'], solar_usage['medium']),
+    ctrl.Rule(solar_intensity['medium'] & energy_demand['medium'] & temperature['medium'], solar_usage['medium']),
+    ctrl.Rule(solar_intensity['low'] & energy_demand['low'] & temperature['low'], solar_usage['medium']),
+    ctrl.Rule(solar_intensity['low'] & energy_demand['low'] & temperature['medium'], solar_usage['low']),
+    ctrl.Rule(solar_intensity['low'] & energy_demand['medium'] & temperature['low'], solar_usage['low']),
+]
+

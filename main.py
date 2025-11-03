@@ -26,3 +26,8 @@ temperature['low'] = fuzz.trimf(temperature.universe, [10, 10, 22])
 temperature['medium'] = fuzz.trimf(temperature.universe, [18, 30, 42])
 temperature['high'] = fuzz.trimf(temperature.universe, [35, 60, 60])
 
+# 1 Output (Solar Usage)
+solar_usage['low'] = fuzz.trapmf(solar_usage.universe, [0, 0, 20, 40])
+solar_usage['medium'] = fuzz.trimf(solar_usage.universe, [30, 50, 70])
+solar_usage['high'] = fuzz.trapmf(solar_usage.universe, [60, 80, 100, 100])
+

@@ -77,5 +77,21 @@ print("Solar Usage Recommendation:", round(solar_sim.output['solar_usage'], 2), 
     # Output of Test Case (2PM)
 solar_usage.view(sim=solar_sim)
 
+    # 3D Visualization
+x, y = np.meshgrid(np.linspace(0, 1000, 50),
+                   np.linspace(10, 60, 50))
+z = np.zeros_like(x)
+
+for i in range(50):
+    for j in range(50):
+        solar_sim.input['solar_intensity'] = x[i, j]
+        solar_sim.input['energy_demand'] = 3.0  # Fixed medium demand
+        solar_sim.input['temperature'] = y[i, j]
+        try:
+            solar_sim.compute()
+            z[i, j] = solar_sim.output['solar_usage']
+        except:
+            z[i, j] = np.nan
+
 
 

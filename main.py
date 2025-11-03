@@ -66,3 +66,16 @@ rules = [
 solar_ctrl = ctrl.ControlSystem(rules)
 solar_sim = ctrl.ControlSystemSimulation(solar_ctrl)
 
+# Test Case Example (2PM)
+solar_sim.input['solar_intensity'] = 870
+solar_sim.input['energy_demand'] = 3.5
+solar_sim.input['temperature'] = 41
+
+solar_sim.compute()
+print("Solar Usage Recommendation:", round(solar_sim.output['solar_usage'], 2), "%")
+
+    # Output of Test Case (2PM)
+solar_usage.view(sim=solar_sim)
+
+
+

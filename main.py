@@ -21,3 +21,8 @@ energy_demand['low'] = fuzz.trimf(energy_demand.universe, [0, 0, 1.5])
 energy_demand['medium'] = fuzz.trimf(energy_demand.universe, [1, 2.5, 4])
 energy_demand['high'] = fuzz.trimf(energy_demand.universe, [3, 5, 5])
 
+    # Temperature
+temperature['low'] = fuzz.trimf(temperature.universe, [10, 10, 22])
+temperature['medium'] = fuzz.trimf(temperature.universe, [18, 30, 42])
+temperature['high'] = fuzz.trimf(temperature.universe, [35, 60, 60])
+

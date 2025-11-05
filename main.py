@@ -2,7 +2,6 @@ import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
 # Fuzzy Variables
 solar_intensity = ctrl.Antecedent(np.arange(0, 1001, 1), 'solar_intensity')

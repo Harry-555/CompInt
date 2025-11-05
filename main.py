@@ -2,6 +2,8 @@ import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('qt5agg')
 
 def solar_fuzzy_system_sim():
     # Fuzzy Variables
@@ -78,33 +80,6 @@ def solar_sim_test(sim, intensity, demand, temperature):
     solar_usage.view(sim=sim)
     plt.show()
 
-# Test Case Example (2PM)
-# solar_sim.input['solar_intensity'] = 870
-# solar_sim.input['energy_demand'] = 3.5
-# solar_sim.input['temperature'] = 41
-#
-# solar_sim.compute()
-# print("Solar Usage Recommendation:", round(solar_sim.output['solar_usage'], 2), "%")
-#
-# # Output of Test Case (2PM)
-# solar_usage.view(sim=solar_sim)
-
-# 3D Visualization
-x, y = np.meshgrid(np.linspace(0, 1000, 50),
-                   np.linspace(10, 60, 50))
-z = np.zeros_like(x)
-
-# for i in range(50):
-#     for j in range(50):
-#         solar_sim.input['solar_intensity'] = x[i, j]
-#         solar_sim.input['energy_demand'] = 3.0  # Fixed medium demand
-#         solar_sim.input['temperature'] = y[i, j]
-#         try:
-#             solar_sim.compute()
-#             z[i, j] = solar_sim.output['solar_usage']
-#         except:
-#             z[i, j] = np.nan
-
 # #3D Plot (Only for fixed energy demand = 3.0)
 def plot3d(x, y, z):
     fig = plt.figure(figsize=(10, 8))
@@ -115,24 +90,28 @@ def plot3d(x, y, z):
     ax.contourf(x, y, z, zdir='y', offset=y.max()*1.5, cmap='viridis', alpha=0.5)
     ax.view_init(30, 200)
     plt.show()
-x_solar_temp, y_solar_temp = np.meshgrid(np.linspace(0, 1000, 20), np.linspace(10, 60, 20))
-z_solar_usage = np.zeros_like(x_solar_temp)
-
-# for i in range(20):
-#     for j in range(20):
-#         solar_sim.input['solar_intensity'] = x_solar_temp[i, j]
-#         solar_sim.input['energy_demand'] = 3.0
-#         solar_sim.input['temperature'] = y_solar_temp[i, j]
-#         try:
-#             solar_sim.compute()
-#             z_solar_usage[i, j] = solar_sim.output['solar_usage']
-#         except:
-#             z_solar_usage[i, j] = 0
-
-plot3d(x_solar_temp, y_solar_temp, z_solar_usage)
 
 if __name__ == '__main__':
     solar_sim = solar_fuzzy_system_sim()
 
     # 2PM Test Case
     solar_sim_test(solar_sim, 870, 3.5, 41)
+
+    # 3D Visualisation
+    x_solar_temp, y_solar_temp = np.meshgrid(np.linspace(0, 1000, 20),
+                                             np.linspace(10, 60, 20))
+    z_solar_usage = np.zeros_like(x_solar_temp)
+
+    for i in range(20):
+        for j in range(20):
+            solar_sim.input['solar_intensity'] = x_solar_temp[i, j]
+            solar_sim.input['energy_demand'] = 3.0
+            solar_sim.input['temperature'] = y_solar_temp[i, j]
+            try:
+                solar_sim.compute()
+                z_solar_usage[i, j] = solar_sim.output['solar_usage']
+            except:
+                z_solar_usage[i, j] = 0
+
+    plot3d(x_solar_temp, y_solar_temp, z_solar_usage)
+

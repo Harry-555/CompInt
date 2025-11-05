@@ -80,7 +80,7 @@ def solar_sim_test(sim, intensity, demand, temperature):
     solar_usage.view(sim=sim)
     plt.show()
 
-# #3D Plot (Only for fixed energy demand = 3.0)
+# 3D Plot
 def plot3d(x, y, z):
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
@@ -90,6 +90,14 @@ def plot3d(x, y, z):
     ax.contourf(x, y, z, zdir='y', offset=y.max()*1.5, cmap='viridis', alpha=0.5)
     ax.view_init(30, 200)
     plt.show()
+
+def filtered_day(array, date):
+    ret_arr = []
+    for i in range(len(array)):
+        if date in array[i][0]:
+            ret_arr.append(array[i].tolist())
+
+    return ret_arr
 
 if __name__ == '__main__':
     solar_sim = solar_fuzzy_system_sim()
@@ -113,5 +121,10 @@ if __name__ == '__main__':
             except:
                 z_solar_usage[i, j] = 0
 
-    plot3d(x_solar_temp, y_solar_temp, z_solar_usage)
+    # plot3d(x_solar_temp, y_solar_temp, z_solar_usage)
+
+    arr = np.genfromtxt('dataset/Plant_1_Weather_Sensor_Data.csv', delimiter=',', dtype=None, skip_header=1,
+                        encoding='utf-8')
+
+    filtered_arr = filtered_day(arr, '2020-05-15')
 

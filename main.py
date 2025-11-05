@@ -57,7 +57,7 @@ def solar_fuzzy_system_sim():
         ctrl.Rule(solar_intensity['medium'] & energy_demand['low'] & temperature['high'], solar_usage['medium']),
         ctrl.Rule(solar_intensity['medium'] & energy_demand['medium'] & temperature['low'], solar_usage['medium']),
         ctrl.Rule(solar_intensity['medium'] & energy_demand['medium'] & temperature['medium'], solar_usage['medium']),
-        ctrl.Rule(solar_intensity['low'] & energy_demand['low'] & temperature['low'], solar_usage['medium']),
+        ctrl.Rule(solar_intensity['low'] & energy_demand['low'] & temperature['low'], solar_usage['low']),
         ctrl.Rule(solar_intensity['low'] & energy_demand['low'] & temperature['medium'], solar_usage['low']),
         ctrl.Rule(solar_intensity['low'] & energy_demand['medium'] & temperature['low'], solar_usage['low']),
     ]
@@ -65,6 +65,18 @@ def solar_fuzzy_system_sim():
     # Construction & Simulation
     solar_ctrl = ctrl.ControlSystem(rules)
     return ctrl.ControlSystemSimulation(solar_ctrl)
+
+def solar_sim_test(sim, intensity, demand, temperature):
+    sim.input['solar_intensity'] = intensity
+    sim.input['energy_demand'] = demand
+    sim.input['temperature'] = temperature
+
+    sim.compute()
+    print("Solar Usage Recommendation:", round(solar_sim.output['solar_usage'], 2), "%")
+
+    solar_usage = next(c for c in sim.ctrl.consequents if c.label == 'solar_usage')
+    solar_usage.view(sim=sim)
+    plt.show()
 
 # Test Case Example (2PM)
 # solar_sim.input['solar_intensity'] = 870
@@ -121,3 +133,6 @@ plot3d(x_solar_temp, y_solar_temp, z_solar_usage)
 
 if __name__ == '__main__':
     solar_sim = solar_fuzzy_system_sim()
+
+    # 2PM Test Case
+    solar_sim_test(solar_sim, 870, 3.5, 41)

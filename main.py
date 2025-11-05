@@ -117,6 +117,25 @@ def test_sim(sim, fil_array):
         sim.compute()
         ratio_list.append(sim.output['solar_usage'])
 
+    plt.figure(figsize=(10, 4))
+
+    plt.subplot(1, 3, 1)
+    plt.plot(date_time_list, irradiation_list)
+    plt.gcf().autofmt_xdate()
+    plt.title('Irradiation')
+
+    plt.subplot(1, 3, 2)
+    plt.plot(date_time_list, temperature_list)
+    plt.gcf().autofmt_xdate()
+    plt.title('Temperature')
+
+    plt.subplot(1, 3, 3)
+    plt.plot(date_time_list, demand_list)
+    plt.gcf().autofmt_xdate()
+    plt.title('Demand')
+
+    plt.figure(figsize=(10, 4))
+
     plt.plot(date_time_list, ratio_list)
     plt.gcf().autofmt_xdate()
     plt.title('Usage Ratio')
@@ -171,5 +190,3 @@ if __name__ == '__main__':
     filtered_arr = filtered_day(arr, '2020-05-15')
 
     test_sim(solar_sim, filtered_arr)
-
-

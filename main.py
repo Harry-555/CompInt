@@ -1,4 +1,5 @@
 import numpy as np
+from datetime import datetime
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 import matplotlib.pyplot as plt
@@ -80,6 +81,47 @@ def solar_sim_test(sim, intensity, demand, temperature):
     solar_usage.view(sim=sim)
     plt.show()
 
+def test_sim(sim, fil_array):
+    hours = np.arange(0, 24, 0.25)
+
+    demand = (
+            0.5 +
+            1.0 * np.exp(-((hours - 9) / 2) ** 2) +
+            2.0 * np.exp(-((hours - 17) / 2) ** 2) +
+            np.random.normal(0, 0.1, len(hours))
+    )
+
+    demand = np.clip(demand, 0, 5)
+
+    table = []
+    for i in range(len(fil_array)):
+        table.append([fil_array[i][0], fil_array[i][-1], fil_array[i][-2], demand[i]])
+
+    date_time_list = []
+    irradiation_list = []
+    temperature_list = []
+    demand_list = []
+
+    for i in range(len(table)):
+        date_time_list.append(datetime.strptime(table[i][0], '%Y-%m-%d %H:%M:%S'))
+        irradiation_list.append(table[i][1])
+        temperature_list.append(table[i][2])
+        demand_list.append(table[i][3])
+
+    ratio_list = []
+
+    for i in range(len(table)):
+        sim.input['solar_intensity'] = irradiation_list[i] * 1000
+        sim.input['energy_demand'] = demand_list[i]
+        sim.input['temperature'] = temperature_list[i]
+        sim.compute()
+        ratio_list.append(sim.output['solar_usage'])
+
+    plt.plot(date_time_list, ratio_list)
+    plt.gcf().autofmt_xdate()
+    plt.title('Usage Ratio')
+    plt.show()
+
 # 3D Plot
 def plot3d(x, y, z):
     fig = plt.figure(figsize=(10, 8))
@@ -127,4 +169,7 @@ if __name__ == '__main__':
                         encoding='utf-8')
 
     filtered_arr = filtered_day(arr, '2020-05-15')
+
+    test_sim(solar_sim, filtered_arr)
+
 

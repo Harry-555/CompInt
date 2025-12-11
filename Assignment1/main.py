@@ -4,7 +4,7 @@ import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('qt5agg')
+# matplotlib.use('qt5agg')
 
 def solar_fuzzy_system_sim():
     # Fuzzy Variables
@@ -19,7 +19,7 @@ def solar_fuzzy_system_sim():
     solar_intensity['medium'] = fuzz.trimf(solar_intensity.universe, [300, 500, 700])
     solar_intensity['high'] = fuzz.trapmf(solar_intensity.universe, [600, 850, 1000, 1000])
 
-    # Energy Demand
+    # Ene   rgy Demand
     energy_demand['low'] = fuzz.trimf(energy_demand.universe, [0, 0, 1.5])
     energy_demand['medium'] = fuzz.trimf(energy_demand.universe, [1, 2.5, 4])
     energy_demand['high'] = fuzz.trimf(energy_demand.universe, [3, 5, 5])
